@@ -60,7 +60,8 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
 
     // continua solicitando o nome do cliente até ele ser preenchido
     while (nome == NULL){
-        
+        printf("Digite o nome: ");
+        scanf("%s", nome);
         if(nome == NULL){
         printf("O campo nome precisa ser preenchido!");
         }
