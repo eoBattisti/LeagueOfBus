@@ -121,8 +121,7 @@ void pesquisar(){
 void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
     FILE *cliente = fopen(nomeArquivoCliente, "r");
     int imprimirOq;
-    char nome[50];
-    int cpf;
+    char aux;
 
 
     printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
@@ -130,9 +129,9 @@ void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
 
     if (imprimirOq == 1)
     {
-        while (fscanf(cliente, "%s %d", nome, &cpf) != EOF)
+        while (fscanf(cliente, "%c", &aux) != EOF)
         {
-            printf("%s %d\n", nome, cpf);
+            printf("%c", aux);
         }
         
     } else {
