@@ -19,6 +19,6 @@ void retirarPoltronaDaReserva();
 
 void pesquisar();
 
-void imprimir();
+void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam);
 
 void excluirCadastro();
