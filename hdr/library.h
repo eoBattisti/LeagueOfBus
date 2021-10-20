@@ -5,6 +5,11 @@ typedef struct {
     int poltrona;
 } Cliente;
 
+typedef struct{
+    int cpfCliente;
+    int status;
+}Poltronas;
+
 void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetor[], int tam);
 
 void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam);
@@ -20,6 +25,8 @@ void retirarPoltronaDaReserva();
 void pesquisar();
 
 void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam);
+
+void imprimirOnibus();
 
 void excluirCadastro();
 
