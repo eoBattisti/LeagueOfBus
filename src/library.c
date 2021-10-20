@@ -122,6 +122,21 @@ void imprimir(){
 
 }
 
+void imprimirOnibus(Poltronas assentos[]){
+    for(int i=0;i<40;i++){
+        switch(assentos[i].status){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 void excluirCadastro(){
 }
 
