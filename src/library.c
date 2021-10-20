@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "../hdr/library.h"
 
+//Recebe as opções que o usuário digitar na main  e chama as funções
 void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[], int tam){
     //Opção direcionando para a função
     if (opcao == 1)
@@ -25,10 +27,10 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         retirarPoltronaDaReserva();
     } else if (opcao == 7)
     {
-        pesquisar();
+        imprimir(nomeArquivoCliente, vetorClientes, tam);
     } else if (opcao == 8)
     {
-        imprimir();
+        imprimir(nomeArquivoCliente, vetorClientes,tam);
     } else if (opcao == 9)
     {
         excluirCadastro();
@@ -38,17 +40,51 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         printf("Opção inválida");
     }   
 }
+// Verifica se o arquivo existe
+int arquivoExiste(char *nomeArquivo){
+    FILE *arquivo = fopen(nomeArquivo, "rb");
+    if (arquivo)
+    {
+        fclose(arquivo);
+        return 1;
+    } 
+    return 0;
+}
 
+//Independente se o arquivo é de clientes ou poltronas realiza o salvamento do arquivo
 void salvarArquivo(char *nomeArquivo, Cliente vetor[], int tam ){
     FILE *arquivo = fopen(nomeArquivo, "wb");
-    fread(vetor, sizeof(Cliente), tam, arquivo);
+    fwrite(vetor, sizeof(Cliente), tam, arquivo);
     fclose(arquivo);
 }
 
+//carrega um arquivo
 void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
     FILE *arquivo = fopen(nomeArquivo, "rb");
-    fread(vetor, sizeof(Cliente), tam, arquivo);
-    fclose(arquivo);
+    if(arquivoExiste(nomeArquivo)){
+        fread(vetor, sizeof(Cliente), tam, arquivo);
+        fclose(arquivo);
+    } else{ 
+        //Solicita ao usuário se o arquivo ainda não existir se deseja cria-lo
+        fclose(arquivo); // fecha o arquivo para poder abrir em modo W
+        char res;
+        printf("Deseja criar o arquivo %s? (S/N):", nomeArquivo);
+        scanf(" %c", &res);
+
+        // recebe a resposta do usuário direciona pra criação ou não do arquivo
+        if(toupper(res) == 'S'){
+            arquivo = fopen(nomeArquivo, "wb");
+            for(int i = 0; i < tam; i++){
+                vetor[i].nome == NULL;
+                vetor[i].cpf == 0;
+                vetor[i].poltrona == 0;
+            }
+            fclose(arquivo);
+        } else{
+            printf("Error ao carregar o arquivo");
+        }
+    }
+    
 }
 
 // Função para realizar o cadastro de clientes.
@@ -64,7 +100,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
     // continua solicitando o nome do cliente até ele ser preenchido
     while (nome == NULL){
         printf("Digite o nome: ");
-        scanf("%s", nome);
+        scanf(" %[^\n]", nome);
         if(nome == NULL){
         printf("O campo nome precisa ser preenchido!");
         }
@@ -121,8 +157,27 @@ void pesquisar(){
 
 }
 
-void imprimir(){
+void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
+    FILE *cliente = fopen(nomeArquivoCliente, "r");
+    int imprimirOq;
+    char aux;
 
+
+    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
+    scanf("%d", &imprimirOq);
+
+    if (imprimirOq == 1)
+    {
+        while (fscanf(cliente, "%c", &aux) != EOF)
+        {
+            printf("%c", aux);
+        }
+        
+    } else {
+        printf("Opção invalida.\n");
+    }
+    
+    fclose(cliente);
 }
 
 void imprimirOnibus(Poltronas assentos[]){
