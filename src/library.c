@@ -5,29 +5,21 @@
 
 void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[], int tam){
     //Opção direcionando para a função
-    if (opcao == 1)
-    {
+    if (opcao == 1){
         cadastrarCliente(nomeArquivoCliente, vetorClientes, tam);
-    } else if (opcao == 2)
-    {
+    } else if (opcao == 2){
         reservarAcento();
-    } else if (opcao == 3)
-    {
+    } else if (opcao == 3){
         venderAcento();
-    } else if (opcao == 4)
-    {
+    } else if (opcao == 4){
         alterar();
-    } else if (opcao == 5)
-    {
+    } else if (opcao == 5){
         retirarPoltronaDaReserva();
-    } else if (opcao == 6)
-    {
+    } else if (opcao == 6){
         pesquisar();
-    } else if (opcao == 7)
-    {
+    } else if (opcao == 7){
         imprimir(nomeArquivoCliente, vetorClientes, tam);
-    } else if (opcao == 8)
-    {
+    } else if (opcao == 8){
         excluirCadastro();
     } else if( opcao == 0){
         printf("Fim.");
@@ -123,18 +115,18 @@ void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
     int imprimirOq;
     char aux;
 
-
     printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
     scanf("%d", &imprimirOq);
 
-    if (imprimirOq == 1)
-    {
+    if (imprimirOq == 1){
         while (fscanf(cliente, "%c", &aux) != EOF)
         {
             printf("%c", aux);
         }
         
-    } else {
+    } else if(imprimirOq == 2){
+        printf("A fazer.\n");
+    } else{
         printf("Opção invalida.\n");
     }
     
@@ -143,5 +135,3 @@ void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
 
 void excluirCadastro(){
 }
-
-
