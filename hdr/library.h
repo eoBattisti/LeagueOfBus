@@ -22,3 +22,5 @@ void pesquisar();
 void imprimir();
 
 void excluirCadastro();
+
+void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam);
