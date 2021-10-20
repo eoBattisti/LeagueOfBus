@@ -10,23 +10,26 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         cadastrarCliente(nomeArquivoCliente, vetorClientes, tam);
     } else if (opcao == 2)
     {
-        reservarAcento();
+        imprimirOnibus(vetorClientes);
     } else if (opcao == 3)
     {
-        venderAcento();
+        reservarAcento();
     } else if (opcao == 4)
     {
-        alterar();
+        venderAcento();
     } else if (opcao == 5)
     {
-        retirarPoltronaDaReserva();
+        alterar();
     } else if (opcao == 6)
     {
-        pesquisar();
+        retirarPoltronaDaReserva();
     } else if (opcao == 7)
     {
-        imprimir();
+        pesquisar();
     } else if (opcao == 8)
+    {
+        imprimir();
+    } else if (opcao == 9)
     {
         excluirCadastro();
     } else if( opcao == 0){
@@ -126,15 +129,28 @@ void imprimirOnibus(Poltronas assentos[]){
     for(int i=0;i<40;i++){
         switch(assentos[i].status){
             case 0:
+                printf("[%02d]",i);
                 break;
             case 1:
+                printf("[AR]");            
                 break;
             case 2:
+                printf("[AV]");
                 break;
             default:
-                break;
+                printf("\n\n\nERRO NO PROGRAMA!\n\n");
+                exit(1);
+        }
+        if( (i+1) % 10 == 0){
+            printf("\n");
+        }else if((i+1) % 20 == 0){
+            printf("\n");
         }
     }
+}
+
+void criarOnibus(Poltronas assentos[]){
+    
 }
 
 void excluirCadastro(){

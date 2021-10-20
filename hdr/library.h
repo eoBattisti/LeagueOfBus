@@ -26,6 +26,8 @@ void pesquisar();
 
 void imprimir();
 
-void imprimirOnibus();
+void imprimirOnibus(Poltronas assentos[]);
+
+void criarOnibus(Poltronas assentos[]);
 
 void excluirCadastro();
