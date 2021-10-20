@@ -27,7 +27,7 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         pesquisar();
     } else if (opcao == 7)
     {
-        imprimir();
+        imprimir(nomeArquivoCliente, vetorClientes, tam);
     } else if (opcao == 8)
     {
         excluirCadastro();
@@ -154,8 +154,27 @@ void pesquisar(){
 
 }
 
-void imprimir(){
+void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
+    FILE *cliente = fopen(nomeArquivoCliente, "r");
+    int imprimirOq;
+    char aux;
 
+
+    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
+    scanf("%d", &imprimirOq);
+
+    if (imprimirOq == 1)
+    {
+        while (fscanf(cliente, "%c", &aux) != EOF)
+        {
+            printf("%c", aux);
+        }
+        
+    } else {
+        printf("Opção invalida.\n");
+    }
+    
+    fclose(cliente);
 }
 
 void excluirCadastro(){
