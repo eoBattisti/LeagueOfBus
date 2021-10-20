@@ -1,13 +1,13 @@
-struct Cliente{
+typedef struct {
     //Campos a ser preenchidos
     char nome[50];
     int cpf;
     int poltrona;
-};
+} Cliente;
 
-void opcaoSelect(int opcao);
+void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetor[], int tam);
 
-void cadastrarCliente();
+void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam);
 
 void reservarAcento();
 

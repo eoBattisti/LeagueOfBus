@@ -3,11 +3,11 @@
 #include <string.h>
 #include "../hdr/library.h"
 
-void opcaoSelect(int opcao){
+void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[], int tam){
     //Opção direcionando para a função
     if (opcao == 1)
     {
-        cadastrarCliente();
+        cadastrarCliente(nomeArquivoCliente, vetorClientes, tam);
     } else if (opcao == 2)
     {
         reservarAcento();
@@ -36,41 +36,65 @@ void opcaoSelect(int opcao){
     }   
 }
 
-// Função para cadastrar clientes.
-void cadastrarCliente(){
-    FILE *listaClientes;
-    //Abrindo arquivo
-    listaClientes = fopen("clientes.txt", "a");
+void salvarArquivo(char *nomeArquivo, Cliente vetor[], int tam ){
+    FILE *arquivo = fopen(nomeArquivo, "wb");
+    fread(vetor, sizeof(Cliente), tam, arquivo);
+    fclose(arquivo);
+}
 
-    struct Cliente cadastro;
+void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
+    FILE *arquivo = fopen(nomeArquivo, "rb");
+    fread(vetor, sizeof(Cliente), tam, arquivo);
+    fclose(arquivo);
+}
+
+// Função para realizar o cadastro de clientes.
+void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
+
+    char nome[50];
+    int cpf;
+    int poltrona = -1;
 
     printf("Digite o nome: ");
-    scanf("%s", cadastro.nome);
-    // Se por ventura a pessoa não preencher o campo o sistema
-    // o sistema continua solicitando para preencher o campo
-    while (cadastro.nome == NULL){
-        printf("Digite o nome: ");
-        scanf("%s", cadastro.nome);
-    if(cadastro.nome == NULL){
+    scanf("%s", nome);
+
+    // continua solicitando o nome do cliente até ele ser preenchido
+    while (nome == NULL){
+        
+        if(nome == NULL){
         printf("O campo nome precisa ser preenchido!");
         }
     }
-    
+
     printf("Digite o CPF: ");
-    scanf("%d", &cadastro.cpf);
-    while (cadastro.cpf == ' '){
+    scanf("%s", &cpf);
+
+    // continua solicitando o cpf do cliente até ele ser preenchido
+    while (cpf == ' '){
         printf("Digite o CPF: ");
-        scanf("%d", &cadastro.cpf);
-    if(cadastro.cpf == ' '){
+        scanf("%d", &cpf);
+    if(cpf == ' '){
         printf("O campo CPF precisa ser preenchido!");
         }  
     }
 
-    //Salvando o cadastro
-    fprintf(listaClientes, "%s\t%d\t%d\n", cadastro.nome, cadastro.cpf, -1);
+    //Laço de verificação para encontrar a posição no vetor onde o nome estiver NULL
+    // logo todos os outros campos serão 0, 0 respectivamente
+    for(int i = 0; i < tam; i++){
+        if((vetor[i].nome == NULL)) 
+        {   
+            //quando encontra a posição no vetor em branco adicona o cliente na posição
+            vetor[i].cpf = cpf;
+            strcpy(vetor[i].nome, nome);
+            vetor[i].poltrona = poltrona;
+            printf("Cliente cadastrado com sucesso");
+            break; //termina o laço após o cadastro
+        }
+    }
 
-    //Fechar aquivo
-    fclose(listaClientes);
+    //Salva as modificações do arquivo
+    salvarArquivo(nomeArquivoCliente, vetor, tam);
+    
 };
 
 void reservarAcento(){
@@ -98,27 +122,6 @@ void imprimir(){
 }
 
 void excluirCadastro(){
-    FILE *abrindoParaExcluir;
-    char nome[50];
-    char nomeNoArquivo;
-    int cpfNoArquivo;
-    int polt; 
-
-    abrindoParaExcluir = fopen("clientes.txt", "r+");
-
-    //Solicitando o nome do cadastro a ser excluido
-    printf("Informe o nome do cliente a ser excluido");
-    scanf("%s", nome);
-
-    //Encontrando o arquivo para excluir
-    while(fscanf(abrindoParaExcluir, "%s\t%d\t%d", nomeNoArquivo, &cpfNoArquivo, &polt) != EOF){
-        if (strcmp(nomeNoArquivo, nome) == 0)
-        {
-            nomeNoArquivo = ' ';
-            cpfNoArquivo = ' ';
-            polt = ' ';
-        }
-    }
-
-    fclose(abrindoParaExcluir);
 }
+
+
