@@ -10,11 +10,14 @@ int main(){
 
     printf("Defina o arquivo de clientes:");
     scanf("%s", arquivoClientes);
+    
+    carregarArquivo(arquivoClientes,Clientes,50);
 
     printf("Defina o arquivo do onibus:");
     scanf("%s", arquivoOnibus);
 
-
+    carregarArquivo(arquivoOnibus,Clientes,50);
+    
     //Menu de opções
     do{
         printf("\nMenu:\n"
