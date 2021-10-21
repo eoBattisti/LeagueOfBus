@@ -205,7 +205,10 @@ void imprimirOnibus(Poltronas assentos[]){
 }
 
 void criarOnibus(Poltronas assentos[]){
-    
+    for(int i=0;i<40;i++){
+        assentos[i].cpfCliente = 0;
+        assentos[i].status = 0;
+    }
 }
 
 void excluirCadastro(){
