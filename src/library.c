@@ -170,6 +170,7 @@ void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
     {
         while (fscanf(cliente, "%c", &aux) != EOF)
         {
+            //cadastro
             printf("%c", aux);
         }
         
