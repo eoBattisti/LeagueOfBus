@@ -19,14 +19,13 @@ int main(){
     do{
         printf("\nMenu:\n"
         "1) Cadastrar Cliente.\n"
-        "2) Mostrar ônibus.\n"
-        "3) Reservar assento.\n"
-        "4) Vender assento.\n"
-        "5) Alterar assento.\n"
-        "6) Retirar poltrona da reserva.\n"
-        "7) Pesquisar cliente.\n"
-        "8) Imprimir.\n"
-        "9) Excluir cadastro.\n"
+        "2) Reservar assento.\n"
+        "3) Vender assento.\n"
+        "4) Alterar assento.\n"
+        "5) Retirar poltrona da reserva.\n"
+        "6) Pesquisar cliente.\n"
+        "7) Imprimir.\n"
+        "8) Excluir cadastro.\n"
         "0) Sair.\n\n");
         printf("Digite uma opcao:");
         scanf("%d", &opcaoSelecionada);
