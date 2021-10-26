@@ -50,14 +50,14 @@ int arquivoExiste(char *nomeArquivo){
 
 //Independente se o arquivo é de clientes ou poltronas realiza o salvamento do arquivo
 void salvarArquivo(char *nomeArquivo, Cliente vetor[], int tam ){
-    FILE *arquivo = fopen(nomeArquivo, "wb");
+    FILE *arquivo = fopen("clientes.txt", "wa");
     fwrite(vetor, sizeof(Cliente), tam, arquivo);
     fclose(arquivo);
 }
 
 //carrega um arquivo
 void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
-    FILE *arquivo = fopen(nomeArquivo, "rb");
+    FILE *arquivo = fopen("cliente.txt", "rb");
     if(arquivoExiste(nomeArquivo)){
         fread(vetor, sizeof(Cliente), tam, arquivo);
         fclose(arquivo);
@@ -86,14 +86,14 @@ void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
 
 // Função para realizar o cadastro de clientes.
 void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
+    FILE *escrever = fopen("clientes.txt", "a");
 
     char nome[50];
     int cpf;
     int poltrona = -1;
 
     printf("Digite o nome: ");
-    scanf("%s", nome);
-
+    scanf(" %[^\n]", nome);
     // continua solicitando o nome do cliente até ele ser preenchido
     while (nome == NULL){
         printf("Digite o nome: ");
@@ -104,8 +104,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
     }
 
     printf("Digite o CPF: ");
-    scanf("%s", &cpf);
-
+    scanf("%d", &cpf);
     // continua solicitando o cpf do cliente até ele ser preenchido
     while (cpf == ' '){
         printf("Digite o CPF: ");
@@ -115,6 +114,11 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
         }  
     }
 
+    fprintf(escrever, "%s %d\n", nome, cpf);
+
+    fclose(escrever);
+
+/*
     //Laço de verificação para encontrar a posição no vetor onde o nome estiver NULL
     // logo todos os outros campos serão 0, 0 respectivamente
     for(int i = 0; i < tam; i++){
@@ -128,9 +132,9 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
             break; //termina o laço após o cadastro
         }
     }
-
+*/
     //Salva as modificações do arquivo
-    salvarArquivo(nomeArquivoCliente, vetor, tam);
+    //salvarArquivo(nomeArquivoCliente, vetor, tam);
     
 };
 
@@ -155,7 +159,7 @@ void pesquisar(){
 }
 
 void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
-    FILE *cliente = fopen(nomeArquivoCliente, "r");
+    FILE *cliente = fopen("clientes.txt", "r");
     int imprimirOq;
     char aux;
 
