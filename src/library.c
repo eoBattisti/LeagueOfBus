@@ -5,11 +5,11 @@
 #include "../hdr/library.h"
 
 //Recebe as opções que o usuário digitar na main  e chama as funções
-void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[], int tam){
+void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[]){
     //Opção direcionando para a função
     if (opcao == 1)
     {
-        cadastrarCliente(nomeArquivoCliente, vetorClientes, tam);
+        cadastrarCliente(nomeArquivoCliente, vetorClientes);
     } else if (opcao == 2)
     {
         reservarAcento();
@@ -27,7 +27,7 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         pesquisar();
     }else if (opcao == 7)
     {
-        imprimir(nomeArquivoCliente, vetorClientes, tam);
+        imprimir(nomeArquivoCliente, vetorClientes);
     } else if (opcao == 8)
     {
         excluirCadastro();
@@ -48,44 +48,8 @@ int arquivoExiste(char *nomeArquivo){
     return 0;
 }
 
-//Independente se o arquivo é de clientes ou poltronas realiza o salvamento do arquivo
-void salvarArquivo(char *nomeArquivo, Cliente vetor[], int tam ){
-    FILE *arquivo = fopen("clientes.txt", "wa");
-    fwrite(vetor, sizeof(Cliente), tam, arquivo);
-    fclose(arquivo);
-}
-
-//carrega um arquivo
-void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
-    FILE *arquivo = fopen("cliente.txt", "rb");
-    if(arquivoExiste(nomeArquivo)){
-        fread(vetor, sizeof(Cliente), tam, arquivo);
-        fclose(arquivo);
-    } else{ 
-        //Solicita ao usuário se o arquivo ainda não existir se deseja cria-lo
-        fclose(arquivo); // fecha o arquivo para poder abrir em modo W
-        char res;
-        printf("Deseja criar o arquivo %s? (S/N):", nomeArquivo);
-        scanf(" %c", &res);
-
-        // recebe a resposta do usuário direciona pra criação ou não do arquivo
-        if(toupper(res) == 'S'){
-            arquivo = fopen(nomeArquivo, "wb");
-            for(int i = 0; i < tam; i++){
-                vetor[i].nome == NULL;
-                vetor[i].cpf == 0;
-                vetor[i].poltrona == 0;
-            }
-            fclose(arquivo);
-        } else{
-            printf("Error ao carregar o arquivo");
-        }
-    }
-    
-}
-
 // Função para realizar o cadastro de clientes.
-void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
+void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[]){
     FILE *escrever = fopen("clientes.txt", "a");
 
     char nome[50];
@@ -116,26 +80,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
 
     fprintf(escrever, "%s %d\n", nome, cpf);
 
-    fclose(escrever);
-
-/*
-    //Laço de verificação para encontrar a posição no vetor onde o nome estiver NULL
-    // logo todos os outros campos serão 0, 0 respectivamente
-    for(int i = 0; i < tam; i++){
-        if((vetor[i].nome == NULL)) 
-        {   
-            //quando encontra a posição no vetor em branco adicona o cliente na posição
-            vetor[i].cpf = cpf;
-            strcpy(vetor[i].nome, nome);
-            vetor[i].poltrona = poltrona;
-            printf("Cliente cadastrado com sucesso");
-            break; //termina o laço após o cadastro
-        }
-    }
-*/
-    //Salva as modificações do arquivo
-    //salvarArquivo(nomeArquivoCliente, vetor, tam);
-    
+    fclose(escrever);    
 };
 
 void reservarAcento(){
@@ -158,7 +103,7 @@ void pesquisar(){
 
 }
 
-void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam){
+void imprimir(char *nomeArquivoCliente, Cliente vetor[]){
     FILE *cliente = fopen("clientes.txt", "r");
     int imprimirOq;
     char aux;

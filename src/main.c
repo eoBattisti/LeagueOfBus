@@ -3,8 +3,6 @@
 #include <string.h>
 #include "../hdr/library.h"
 
-#define TAM 10
-
 int main(){
     int opcaoSelecionada;
     char arquivoClientes[50], arquivoOnibus[50];
@@ -33,7 +31,7 @@ int main(){
         printf("Digite uma opcao:");
         scanf("%d", &opcaoSelecionada);
         if(opcaoSelecionada >=0 || opcaoSelecionada<=9){
-            opcaoSelect(opcaoSelecionada, arquivoClientes, arquivoOnibus, Clientes, TAM);
+            opcaoSelect(opcaoSelecionada, arquivoClientes, arquivoOnibus, Clientes);
         
         } else{
             printf("\n\nOpção invalida.\n\n");

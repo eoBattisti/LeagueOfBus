@@ -10,9 +10,9 @@ typedef struct{
     int status;
 }Poltronas;
 
-void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetor[], int tam);
+void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetor[]);
 
-void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam);
+void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[]);
 
 void reservarAcento();
 
@@ -24,7 +24,7 @@ void retirarPoltronaDaReserva();
 
 void pesquisar();
 
-void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam);
+void imprimir(char *nomeArquivoCliente, Cliente vetor[]);
 
 void imprimirOnibus(Poltronas assentos[]);
 
@@ -32,4 +32,4 @@ void criarOnibus(Poltronas assentos[]);
 
 void excluirCadastro();
 
-void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam);
+void carregarArquivo(char *nomeArquivo, Cliente vetor[]);
