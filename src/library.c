@@ -5,11 +5,11 @@
 #include "../hdr/library.h"
 
 //Recebe as opções que o usuário digitar na main  e chama as funções
-void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetorClientes[]){
+void opcaoSelect(int opcao, Cliente vetorClientes[]){
     //Opção direcionando para a função
     if (opcao == 1)
     {
-        cadastrarCliente(nomeArquivoCliente, vetorClientes);
+        cadastrarCliente();
     } else if (opcao == 2)
     {
         reservarAcento();
@@ -27,7 +27,7 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         pesquisar();
     }else if (opcao == 7)
     {
-        imprimir(nomeArquivoCliente, vetorClientes);
+        imprimir();
     } else if (opcao == 8)
     {
         excluirCadastro();
@@ -37,6 +37,7 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         printf("Opção inválida");
     }   
 }
+
 // Verifica se o arquivo existe
 int arquivoExiste(char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "rb");
@@ -49,7 +50,7 @@ int arquivoExiste(char *nomeArquivo){
 }
 
 // Função para realizar o cadastro de clientes.
-void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[]){
+void cadastrarCliente(){
     FILE *escrever = fopen("clientes.txt", "a");
 
     char nome[50];
@@ -63,7 +64,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[]){
         printf("Digite o nome: ");
         scanf(" %[^\n]", nome);
         if(nome == NULL){
-        printf("O campo nome precisa ser preenchido!");
+        printf("O campo nome precisa ser preenchido!\n");
         }
     }
 
@@ -74,7 +75,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[]){
         printf("Digite o CPF: ");
         scanf("%d", &cpf);
     if(cpf == ' '){
-        printf("O campo CPF precisa ser preenchido!");
+        printf("O campo CPF precisa ser preenchido!\n");
         }  
     }
 
@@ -103,14 +104,14 @@ void pesquisar(){
 
 }
 
-void imprimir(char *nomeArquivoCliente, Cliente vetor[]){
+void imprimir(){
     FILE *cliente = fopen("clientes.txt", "r");
     int imprimirOq;
     char aux;
 
-
     printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
     scanf("%d", &imprimirOq);
+    printf("\nCadastro:\n");
 
     if (imprimirOq == 1)
     {
