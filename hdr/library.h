@@ -34,4 +34,4 @@ void excluirCadastro();
 
 void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam);
 
-int verificarCliente(char cpf[], Cliente v[],int tam);
+int verificarCliente(char cpf[], char nome[]);
