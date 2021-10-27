@@ -38,6 +38,13 @@ void opcaoSelect(int opcao, Cliente vetorClientes[]){
     }   
 }
 
+int verificarCPF(char cpf[]){
+    if(strlen(cpf) == 11){
+        return 1;
+    }
+    return 0;
+}
+
 // Verifica se o arquivo existe
 int arquivoExiste(char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "rb");
@@ -56,6 +63,9 @@ void cadastrarCliente(){
     char nome[50];
     char cpf[12];
     int poltrona = -1;
+    int teste;
+
+    strcpy(cpf,"");
 
     // continua solicitando o nome do cliente até ele ser preenchido
     do{
@@ -70,10 +80,10 @@ void cadastrarCliente(){
     do{
         printf("Digite o CPF: ");
         scanf("%s", cpf);
-    if(cpf == NULL){
-        printf("O campo CPF precisa ser preenchido!\n");
-        }  
-    }while (cpf == NULL);
+        if(cpf == NULL){
+            printf("O campo CPF precisa ser preenchido!\n");
+        }
+    }while (cpf == NULL || verificarCPF(cpf) == 0);
 
     //escrever no arquivo
     fprintf(escrever, "%s\t%s\n", nome, cpf);
@@ -88,15 +98,14 @@ void reservarAcento(){
     if(pesquisar() == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
         scanf(" %c",&op);
-        op = toupper(op);
-        if(op == 'S'){
+        if(toupper(op) == 'S'){
             cadastrarCliente();
         }else{
             printf("\n\nReserva cancelada\n\n");
             return;
         }
     } 
-    printf("lol\n\n");
+    
 }
 
 void venderAcento(){
