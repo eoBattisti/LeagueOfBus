@@ -72,14 +72,18 @@ void cadastrarCliente(){
     scanf("%s", cpf);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
-    while (strcpy(cpf,"")){
+    while (cpf == NULL){
         printf("Digite o CPF: ");
         scanf("%s", cpf);
-        if(strcpy(cpf,"")){
-          printf("O campo CPF precisa ser preenchido!\n");
+    if(cpf == NULL){
+        printf("O campo CPF precisa ser preenchido!\n");
         }  
     }
 
+    //escrever no arquivo
+    fprintf(escrever, "%s %s\n", nome, cpf);
+
+    //fechando o arquivo
     fclose(escrever);    
 };
 
@@ -141,7 +145,7 @@ void imprimir(){
     {
         while (fscanf(cliente, "%c", &aux) != EOF)
         {
-            //cadastro
+            //Imprimindo cadastro
             printf("%c", aux);
         }
         
@@ -149,6 +153,7 @@ void imprimir(){
         printf("Opção invalida.\n");
     }
     
+    //Fechando arquivo
     fclose(cliente);
 }
 
