@@ -72,11 +72,11 @@ void cadastrarCliente(){
     scanf("%s", cpf);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
-    while (cpf == ' '){
+    while (strcpy(cpf,"")){
         printf("Digite o CPF: ");
         scanf("%s", cpf);
-    if(cpf == ' '){
-        printf("O campo CPF precisa ser preenchido!\n");
+        if(strcpy(cpf,"")){
+          printf("O campo CPF precisa ser preenchido!\n");
         }  
     }
 
@@ -87,12 +87,12 @@ void cadastrarCliente(){
 int verificarCliente(char cpf[], char nome[]){
     FILE *cliente = fopen("clientes.txt", "r");
     //strcmp(v[].cpf,cpf);
-
+    fclose(cliente);
 }
 
 void reservarAcento(){
     char cpf[11], nome[50];
-    int op;
+    char op;
 
     printf("Informe o CPF do passageiro:\n");
     scanf("%s", cpf);
@@ -102,8 +102,9 @@ void reservarAcento(){
     
     if(verificarCliente(cpf,nome) == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
-        scanf("%d",&op);
-        if(strcmp(toupper(op),"S")){
+        scanf("%c",&op);
+        op = toupper(op);
+        if(op == 'S'){
             cadastrarCliente();
         }
     } else{
