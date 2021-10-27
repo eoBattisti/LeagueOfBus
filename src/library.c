@@ -12,7 +12,7 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
         cadastrarCliente(nomeArquivoCliente, vetorClientes, tam);
     } else if (opcao == 2)
     {
-        reservarAcento();
+        reservarAcento(nomeArquivoCliente,vetorClientes,tam);
     } else if (opcao == 3)
     {
         venderAcento();
@@ -40,12 +40,12 @@ void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, C
 // Verifica se o arquivo existe
 int arquivoExiste(char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "rb");
-    if (arquivo)
+    if (arquivo != NULL)
     {
         fclose(arquivo);
         return 1;
     } 
-    return 0;
+    exit(1);
 }
 
 //Independente se o arquivo é de clientes ou poltronas realiza o salvamento do arquivo
@@ -88,7 +88,7 @@ void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam){
 void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
 
     char nome[50];
-    int cpf;
+    char cpf[11];
     int poltrona = -1;
 
     printf("Digite o nome: ");
@@ -104,12 +104,12 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
     }
 
     printf("Digite o CPF: ");
-    scanf("%s", &cpf);
+    scanf("%s", cpf);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
     while (cpf == ' '){
         printf("Digite o CPF: ");
-        scanf("%d", &cpf);
+        scanf("%s", cpf);
     if(cpf == ' '){
         printf("O campo CPF precisa ser preenchido!");
         }  
@@ -121,7 +121,7 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
         if((vetor[i].nome == NULL)) 
         {   
             //quando encontra a posição no vetor em branco adicona o cliente na posição
-            vetor[i].cpf = cpf;
+            strcpy(vetor[i].cpf,cpf);
             strcpy(vetor[i].nome, nome);
             vetor[i].poltrona = poltrona;
             printf("Cliente cadastrado com sucesso");
@@ -134,7 +134,23 @@ void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam){
     
 };
 
-void reservarAcento(){
+void reservarAcento(char *nomeArquivoCliente, Cliente vetor[], int tam){
+    char cpf[11];
+    int op;
+
+    printf("Informe o CPF do passageiro:\n");
+    scanf("%s", cpf);
+    
+    if(verificarCliente(cpf,vetor,tam) == 0){
+        printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
+        scanf("%d",&op);
+        if(strcmp(op,toupper("s"))){
+            cadastrarCliente(nomeArquivoCliente,vetor,tam);
+        }
+    } else{
+    }
+
+
 
 }
 
@@ -212,4 +228,13 @@ void criarOnibus(Poltronas assentos[]){
 void excluirCadastro(){
 }
 
+//Funcao pra verificar se cliente existe?
+int verificarCliente(char cpf[], Cliente v[],int tam){
 
+    for(int i=0;i<tam;i++){
+        if(strcmp(v[i].cpf,cpf) == 0){
+            return 1;
+        }
+    }
+    return 0;
+}
