@@ -1,11 +1,3 @@
-a 123
-b 3215
-luquinhas 1079541655
-abelinha 12314
-j 325
-k 3215
-joao pedro 102287
-debora 87690
-testa 56
-opa 432
-mais um 838745
+leonardo	12345
+Lucas	123
+Gaf	456

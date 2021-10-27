@@ -54,66 +54,49 @@ void cadastrarCliente(){
     FILE *escrever = fopen("clientes.txt", "a");
 
     char nome[50];
-    char cpf[11];
+    char cpf[12];
     int poltrona = -1;
 
-    printf("Digite o nome: ");
-    scanf(" %[^\n]", nome);
     // continua solicitando o nome do cliente até ele ser preenchido
-    while (nome == NULL){
+    do{
         printf("Digite o nome: ");
         scanf(" %[^\n]", nome);
         if(nome == NULL){
         printf("O campo nome precisa ser preenchido!\n");
         }
-    }
-
-    printf("Digite o CPF: ");
-    scanf("%s", cpf);
+    }while (nome == NULL);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
-    while (cpf == NULL){
+    do{
         printf("Digite o CPF: ");
         scanf("%s", cpf);
     if(cpf == NULL){
         printf("O campo CPF precisa ser preenchido!\n");
         }  
-    }
+    }while (cpf == NULL);
 
     //escrever no arquivo
-    fprintf(escrever, "%s %s\n", nome, cpf);
+    fprintf(escrever, "%s\t%s\n", nome, cpf);
 
     //fechando o arquivo
     fclose(escrever);    
 };
 
-//Funcao pra verificar se cliente existe?
-int verificarCliente(char cpf[], char nome[]){
-    FILE *cliente = fopen("clientes.txt", "r");
-    //strcmp(v[].cpf,cpf);
-    fclose(cliente);
-}
-
 void reservarAcento(){
-    char cpf[11], nome[50];
     char op;
 
-    printf("Informe o CPF do passageiro:\n");
-    scanf("%s", cpf);
-    printf("\nInforme o nome do passageiro:\n");
-    scanf("%s", nome);
-    
-    
-    if(verificarCliente(cpf,nome) == 0){
+    if(pesquisar() == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
-        scanf("%c",&op);
+        scanf(" %c",&op);
         op = toupper(op);
         if(op == 'S'){
             cadastrarCliente();
+        }else{
+            printf("\n\nReserva cancelada\n\n");
+            return;
         }
-    } else{
-
-    }
+    } 
+    printf("lol\n\n");
 }
 
 void venderAcento(){
@@ -128,8 +111,39 @@ void retirarPoltronaDaReserva(){
 
 }
 
-void pesquisar(){
+//Funcao pra verificar se cliente existe?
+int pesquisar(){
+    FILE *cliente = fopen("clientes.txt", "r");
+    char encontrarCPF[12], encontrarNome[50];
+    char cpf[11], nome[50];
+    int opt;
+    
+    do{
+        printf("\nPesquisar:\n1) Por Nome digite 1.\n2) Por CPF digite 2.\n");
+        scanf("%d", &opt);
 
+        if (opt == 1){
+            printf("Informe o nome que deseja encontrar:\n");
+            scanf("%s", encontrarNome);        
+        } else if (opt == 2){
+            printf("Informe o CPF que deseja encotrar:\n");
+            scanf("%s", encontrarCPF);
+        }
+    }while (opt < 1 || opt > 2);
+
+    while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){
+        if (strcmp(encontrarNome, nome) == 0 && opt == 1){
+            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            return 1;
+        } else if (strcmp(encontrarCPF, cpf) == 0 && opt == 2){
+            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            fclose(cliente);
+            return 1;
+        } 
+    }
+    printf("Conta não encontrada.\n"); 
+    fclose(cliente);
+    return 0;
 }
 
 void imprimir(){
@@ -157,7 +171,7 @@ void imprimir(){
     fclose(cliente);
 }
 
-/*void imprimirOnibus(Poltronas assentos[]){
+/*void imprimirOnibus(){
     for(int i=0;i<40;i++){
         switch(assentos[i].status){
             case 0:
@@ -170,7 +184,7 @@ void imprimir(){
                 printf("[AV]");
                 break;
             default:
-                printf("\n\n\nERRO NO PROGRAMA!\n\n");
+                printf("\n\n\nERRO\n\n");
                 exit(1);
         }
         if( (i+1) % 10 == 0){
@@ -179,7 +193,7 @@ void imprimir(){
             printf("\n");
         }
     }
-}*/
+}*/ 
 
 void criarOnibus(Poltronas assentos[]){
     for(int i=0;i<40;i++){

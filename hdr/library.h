@@ -22,7 +22,7 @@ void alterar();
 
 void retirarPoltronaDaReserva();
 
-void pesquisar();
+int pesquisar();
 
 void imprimir();
 
