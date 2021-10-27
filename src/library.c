@@ -72,14 +72,18 @@ void cadastrarCliente(){
     scanf("%s", cpf);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
-    while (cpf == ' '){
+    while (cpf == NULL){
         printf("Digite o CPF: ");
         scanf("%s", cpf);
-    if(cpf == ' '){
+    if(cpf == NULL){
         printf("O campo CPF precisa ser preenchido!\n");
         }  
     }
 
+    //escrever no arquivo
+    fprintf(escrever, "%s %s\n", nome, cpf);
+
+    //fechando o arquivo
     fclose(escrever);    
 };
 
@@ -92,7 +96,7 @@ int verificarCliente(char cpf[], char nome[]){
 
 void reservarAcento(){
     char cpf[11], nome[50];
-    int op;
+    char op;
 
     printf("Informe o CPF do passageiro:\n");
     scanf("%s", cpf);
@@ -102,8 +106,9 @@ void reservarAcento(){
     
     if(verificarCliente(cpf,nome) == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
-        scanf("%d",&op);
-        if(strcmp(toupper(op),"S")){
+        scanf("%c",&op);
+        op= toupper(op);
+        if(strcmp(op,"S") == 0){
             cadastrarCliente();
         }
     } else{
@@ -140,7 +145,7 @@ void imprimir(){
     {
         while (fscanf(cliente, "%c", &aux) != EOF)
         {
-            //cadastro
+            //Imprimindo cadastro
             printf("%c", aux);
         }
         
@@ -148,6 +153,7 @@ void imprimir(){
         printf("Opção invalida.\n");
     }
     
+    //Fechando arquivo
     fclose(cliente);
 }
 
