@@ -5,15 +5,7 @@
 
 int main(){
     int opcaoSelecionada;
-    char arquivoClientes[50], arquivoOnibus[50];
     Cliente Clientes[100];
-
-    printf("Defina o arquivo de clientes:");
-    scanf("%s", arquivoClientes);
-
-    printf("Defina o arquivo do onibus:");
-    scanf("%s", arquivoOnibus);
-
 
     //Menu de opções
     do{
@@ -30,7 +22,7 @@ int main(){
         printf("Digite uma opcao:");
         scanf("%d", &opcaoSelecionada);
         if(opcaoSelecionada >=0 || opcaoSelecionada<=9){
-            opcaoSelect(opcaoSelecionada, arquivoClientes, arquivoOnibus, Clientes, 100);
+            opcaoSelect(opcaoSelecionada, Clientes);
         
         } else{
             printf("\n\nOpção invalida.\n\n");
