@@ -7,8 +7,8 @@
 //Recebe as opções que o usuário digitar na main  e chama as funções
 void opcaoSelect(int opcao, Cliente vetorClientes[]){
     //Opção direcionando para a função
-    if (opcao == 1)
-    {
+    if (opcao == 1){
+        //feito
         cadastrarCliente();
     } else if (opcao == 2)
     {
@@ -22,11 +22,11 @@ void opcaoSelect(int opcao, Cliente vetorClientes[]){
     } else if (opcao == 5)
     {
         retirarPoltronaDaReserva();
-    } else if (opcao == 6)
-    {
+    } else if (opcao == 6){
+        //falta pesquisar por nome
         pesquisar();
-    }else if (opcao == 7)
-    {
+    }else if (opcao == 7){
+        //feito
         imprimir();
     } else if (opcao == 8)
     {
@@ -191,10 +191,8 @@ void imprimir(){
             //Imprimindo onibus
             printf("%c", aux);
         }
-    }else if(imprimirOq == 2){
+    }else if(imprimirOq == 0){
         
-    } else {
-        printf("Opção invalida.\n");
     }
     
     //Fechando arquivo
@@ -208,5 +206,26 @@ void criarOnibus(Poltronas assentos[]){
 }
 
 void excluirCadastro(){
+    FILE *cliente = fopen("clientes.txt", "r+");
+    char encontrarNome[50];
+    char encontrarCPF[11];
+    char nome[50], cpf[11];
+    int confirma;
+
+    printf("Informe o CPF que deseja escluir:\n");
+    scanf("%s", encontrarCPF);
+
+    while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){
+        if (strcmp(encontrarCPF, cpf) == 0){
+            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            printf("Deseja mesmo excluir o contato? se sim digite '1'");
+            scanf("%d", &confirma);
+            if (confirma == 1){
+                //falta fazer
+            }
+            
+        }
+    }
+    
 }
 
