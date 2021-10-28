@@ -94,9 +94,9 @@ void cadastrarCliente(){
 };
 
 void reservarAcento(){
+    int cont = 0;
     char op;
-    int reservaAssento;
-    char nPoltrona[3], nCadastro[12];
+    char nPoltrona[3], nCadastro[12], reservaAssento[3], reservaCPF[12];
 
     //verificando se o cadastro existe
     if(pesquisar() == 0){
@@ -110,18 +110,43 @@ void reservarAcento(){
             return;
         }
     } 
-
-    printf("\n\nInsira poltrona deseja reservar:");
-    scanf("%d",&reservaAssento);
     
-    FILE *poltrona = fopen("poltronas.txt","w");
+    FILE *poltrona = fopen("poltronas.txt","r+");
     FILE *cliente = fopen("clientes.txt","r");
 
-    /*while(fscanf(poltrona,"%[^\t] %[^\n] ",nPoltrona,nCadastro) != EOF){
-        if(strcmp(nPoltrona,reservaAssento)){
+    printf("\n\nInsira poltrona deseja reservar: ");
+    scanf(" %s", reservaAssento);
 
-        }
+    /*if(reservaAssento >= 48 && reservaAssento <= 57){
+        reservaAssento[2] = reservaAssento[1];
+        reservaAssento[1] = reservaAssento[0];
+        reservaAssento[0] = '0';
     }*/
+    
+    do{
+        printf("\n\nInsira seu CPF: ");
+        scanf("%s", reservaCPF);
+    }while(strlen(reservaCPF) != 11);
+
+    while(fscanf(poltrona,"%[^\t] %[^\n] ",nPoltrona,nCadastro) != EOF){
+        if(strcmp(nPoltrona,reservaAssento)==0){
+            break;
+        }
+        cont++;
+    }
+
+    printf("CONT = %d\n\n", cont);
+
+    rewind(poltrona);
+
+    while(fscanf(poltrona,"%[^\t] %[^\n] ",nPoltrona,nCadastro) != EOF){
+        cont--;
+            printf("%s\t%s\t%d\t%s\n",nPoltrona,nCadastro,cont,reservaCPF);
+        if(cont == 0){
+            fprintf(poltrona,"AR\t%s\n",reservaCPF);
+            break;
+        }
+    }
 
     fclose(poltrona);
     fclose(cliente);
@@ -144,11 +169,11 @@ void retirarPoltronaDaReserva(){
 int pesquisar(){
     FILE *cliente = fopen("clientes.txt", "r");
     char encontrarCPF[12], encontrarNome[50];
-    char cpf[11], nome[50];
+    char cpf[12], nome[50];
     int opt;
     
     do{
-        //solicitando como deseja pesquisar
+        //solicitando como deseja pesquisar 
         printf("\nPesquisar:\n1) Por Nome digite 1.\n2) Por CPF digite 2.\n0) Sair.\n");
         scanf("%d", &opt);
 
@@ -163,14 +188,14 @@ int pesquisar(){
         } else if (opt == 0){
             return 0;
         }
-    }while (opt < 0 || opt > 2);
+    }while (opt < -1 || opt > 2);
 
-    while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){
+    while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){   
         if (strcmp(encontrarNome, nome) == 0 && opt == 1){
-            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            printf("Conta encontrada: %s %s\n\n", nome, cpf);
             return 1;
         } else if (strcmp(encontrarCPF, cpf) == 0 && opt == 2){
-            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            printf("Conta encontrada: %s %s\n\n", nome, cpf);
             fclose(cliente);
             return 1;
         } 
@@ -188,9 +213,9 @@ void imprimir(){
 
     //dando a opção de arquivos
     do{
-    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n0 - Sair.\n");
-    scanf("%d", &imprimirOq);
-    printf("\nCadastro:\n");
+        printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n0 - Sair.\n");
+        scanf("%d", &imprimirOq);
+        printf("\nCadastro:\n");
     } while (imprimirOq > 2 || imprimirOq < -1);
     
 
@@ -217,16 +242,20 @@ void imprimir(){
     fclose(onibus);
 }
 
-void criarOnibus(Poltronas assentos[]){
+void criarOnibus(){
     //função criar arquivo txt
-    
+    FILE *poltronas = fopen("poltronas.txt","w+");
+    for(int i=1;i<=40;i++){
+        fprintf(poltronas,"%02d\t00000000000\n",i);
+    }
+    fclose(poltronas);
 }
 
 void excluirCadastro(){
     FILE *cliente = fopen("clientes.txt", "r+");
     char encontrarNome[50];
-    char encontrarCPF[11];
-    char nome[50], cpf[11];
+    char encontrarCPF[12];
+    char nome[50], cpf[12];
     int confirma;
 
     printf("Informe o CPF que deseja escluir:\n");

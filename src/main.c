@@ -4,12 +4,19 @@
 #include "../hdr/library.h"
 
 int main(){
-    int opcaoSelecionada;
+    int opcaoSelecionada, sex;
     Cliente Clientes[100];
+
+    printf("Deseja criar onibus? 1 pra sim\n");
+    scanf("%d", &sex);
+
+    if(sex == 1){
+        criarOnibus();
+    }
 
     //Menu de opções
     do{
-        printf("\nMenu:\n"
+        printf("\n\n\nMenu:\n"
         "1) Cadastrar Cliente.\n"
         "2) Reservar assento.\n"
         "3) Vender assento.\n"

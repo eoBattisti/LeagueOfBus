@@ -10,9 +10,9 @@ typedef struct{
     int status;
 }Poltronas;
 
-void opcaoSelect(int opcao,  Cliente vetor[]);
+void opcaoSelect(int opcao,  Cliente vetor[]); //
 
-void cadastrarCliente();
+void cadastrarCliente(); //
 
 void reservarAcento();
 
@@ -26,7 +26,7 @@ int pesquisar();
 
 void imprimir();
 
-void criarOnibus(Poltronas assentos[]);
+void criarOnibus(); //
 
 void excluirCadastro();
 
