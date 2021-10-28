@@ -63,7 +63,7 @@ void cadastrarCliente(){
     char nome[50];
     char cpf[12];
     int poltrona = -1;
-    int teste;
+
 
     strcpy(cpf,"");
 
@@ -94,6 +94,8 @@ void cadastrarCliente(){
 
 void reservarAcento(){
     char op;
+    int reservaAssento;
+    char nPoltrona[3], nCadastro[12];
 
     if(pesquisar() == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
@@ -105,7 +107,22 @@ void reservarAcento(){
             return;
         }
     } 
+
+    printf("\n\nInsira poltrona deseja reservar:");
+    scanf("%d",&reservaAssento);
     
+    FILE *poltrona = fopen("poltronas.txt","w");
+    FILE *cliente = fopen("clientes.txt","r");
+
+    /*while(fscanf(poltrona,"%[^\t] %[^\n] ",nPoltrona,nCadastro) != EOF){
+        if(strcmp(nPoltrona,reservaAssento)){
+
+        }
+    }*/
+
+    fclose(poltrona);
+    fclose(cliente);
+
 }
 
 void venderAcento(){
