@@ -7,8 +7,8 @@
 //Recebe as opções que o usuário digitar na main  e chama as funções
 void opcaoSelect(int opcao, Cliente vetorClientes[]){
     //Opção direcionando para a função
-    if (opcao == 1)
-    {
+    if (opcao == 1){
+        //feito
         cadastrarCliente();
     } else if (opcao == 2)
     {
@@ -22,11 +22,11 @@ void opcaoSelect(int opcao, Cliente vetorClientes[]){
     } else if (opcao == 5)
     {
         retirarPoltronaDaReserva();
-    } else if (opcao == 6)
-    {
+    } else if (opcao == 6){
+        //falta pesquisar por nome
         pesquisar();
-    }else if (opcao == 7)
-    {
+    }else if (opcao == 7){
+        //feito
         imprimir();
     } else if (opcao == 8)
     {
@@ -38,7 +38,9 @@ void opcaoSelect(int opcao, Cliente vetorClientes[]){
     }   
 }
 
+//Verificando se o CPF tem 11 caracteres
 int verificarCPF(char cpf[]){
+    //contando a quantidade de digitos
     if(strlen(cpf) == 11){
         return 1;
     }
@@ -64,7 +66,6 @@ void cadastrarCliente(){
     char cpf[12];
     int poltrona = -1;
 
-
     strcpy(cpf,"");
 
     // continua solicitando o nome do cliente até ele ser preenchido
@@ -72,7 +73,7 @@ void cadastrarCliente(){
         printf("Digite o nome: ");
         scanf(" %[^\n]", nome);
         if(nome == NULL){
-        printf("O campo nome precisa ser preenchido!\n");
+        printf("O campo 'nome' precisa ser preenchido!\n");
         }
     }while (nome == NULL);
 
@@ -81,7 +82,7 @@ void cadastrarCliente(){
         printf("Digite o CPF: ");
         scanf("%s", cpf);
         if(cpf == NULL){
-            printf("O campo CPF precisa ser preenchido!\n");
+            printf("O campo 'CPF' precisa ser preenchido!\n");
         }
     }while (cpf == NULL || verificarCPF(cpf) == 0);
 
@@ -97,10 +98,12 @@ void reservarAcento(){
     int reservaAssento;
     char nPoltrona[3], nCadastro[12];
 
+    //verificando se o cadastro existe
     if(pesquisar() == 0){
         printf("Cliente não cadastrado\n\nDeseja cadastrar? (S/N)");
         scanf(" %c",&op);
         if(toupper(op) == 'S'){
+            //solicitar cadastro caso não esteja cadastrado
             cadastrarCliente();
         }else{
             printf("\n\nReserva cancelada\n\n");
@@ -145,17 +148,22 @@ int pesquisar(){
     int opt;
     
     do{
-        printf("\nPesquisar:\n1) Por Nome digite 1.\n2) Por CPF digite 2.\n");
+        //solicitando como deseja pesquisar
+        printf("\nPesquisar:\n1) Por Nome digite 1.\n2) Por CPF digite 2.\n0) Sair.\n");
         scanf("%d", &opt);
 
         if (opt == 1){
+            //recebendo o nome
             printf("Informe o nome que deseja encontrar:\n");
             scanf("%s", encontrarNome);        
         } else if (opt == 2){
+            //recebendo o cpf
             printf("Informe o CPF que deseja encotrar:\n");
             scanf("%s", encontrarCPF);
+        } else if (opt == 0){
+            return 0;
         }
-    }while (opt < 1 || opt > 2);
+    }while (opt < 0 || opt > 2);
 
     while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){
         if (strcmp(encontrarNome, nome) == 0 && opt == 1){
@@ -174,12 +182,17 @@ int pesquisar(){
 
 void imprimir(){
     FILE *cliente = fopen("clientes.txt", "r");
+    FILE *onibus = fopen("poltronas.txt", "r");
     int imprimirOq;
     char aux;
 
-    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
+    //dando a opção de arquivos
+    do{
+    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n0 - Sair.\n");
     scanf("%d", &imprimirOq);
     printf("\nCadastro:\n");
+    } while (imprimirOq > 2 || imprimirOq < -1);
+    
 
     if (imprimirOq == 1)
     {
@@ -189,45 +202,47 @@ void imprimir(){
             printf("%c", aux);
         }
         
-    } else {
-        printf("Opção invalida.\n");
+    }else if(imprimirOq == 2){
+        while (fscanf(onibus, "%c", &aux) != EOF)
+        {
+            //Imprimindo onibus
+            printf("%c", aux);
+        }
+    }else if(imprimirOq == 0){
+        
     }
     
     //Fechando arquivo
     fclose(cliente);
+    fclose(onibus);
 }
 
-/*void imprimirOnibus(){
-    for(int i=0;i<40;i++){
-        switch(assentos[i].status){
-            case 0:
-                printf("[%02d]",i);
-                break;
-            case 1:
-                printf("[AR]");            
-                break;
-            case 2:
-                printf("[AV]");
-                break;
-            default:
-                printf("\n\n\nERRO\n\n");
-                exit(1);
-        }
-        if( (i+1) % 10 == 0){
-            printf("\n");
-        }else if((i+1) % 20 == 0){
-            printf("\n");
-        }
-    }
-}*/ 
-
 void criarOnibus(Poltronas assentos[]){
-    for(int i=0;i<40;i++){
-        assentos[i].cpfCliente = 0;
-        assentos[i].status = 0;
-    }
+    //função criar arquivo txt
+    
 }
 
 void excluirCadastro(){
+    FILE *cliente = fopen("clientes.txt", "r+");
+    char encontrarNome[50];
+    char encontrarCPF[11];
+    char nome[50], cpf[11];
+    int confirma;
+
+    printf("Informe o CPF que deseja escluir:\n");
+    scanf("%s", encontrarCPF);
+
+    while (fscanf(cliente, "%[^\t] %[^\n] ", nome, cpf) != EOF){
+        if (strcmp(encontrarCPF, cpf) == 0){
+            printf("Conta encontrada: %s %s\n\n", encontrarCPF, encontrarNome);
+            printf("Deseja mesmo excluir o contato? se sim digite '1'");
+            scanf("%d", &confirma);
+            if (confirma == 1){
+                //falta fazer
+            }
+            
+        }
+    }
+    
 }
 
