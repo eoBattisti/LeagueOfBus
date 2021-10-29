@@ -5,14 +5,14 @@
 #include "../hdr/library.h"
 
 //Recebe as opções que o usuário digitar na main  e chama as funções
-void opcaoSelect(int opcao, Cliente vetorClientes[]){
+void opcaoSelect(int opcao, Cliente *vetor){
     //Opção direcionando para a função
     if (opcao == 1){
         //feito
-        cadastrarCliente();
+        cadastrarCliente(vetor);
     } else if (opcao == 2)
     {
-        reservarAcento(vetorClientes);
+        reservarAcento(vetor);
     } else if (opcao == 3)
     {
         venderAcento();
@@ -59,41 +59,35 @@ int arquivoExiste(char *nomeArquivo){
 }
 
 // Função para realizar o cadastro de clientes.
-void cadastrarCliente(){
-    FILE *escrever = fopen("clientes.txt", "a");
-
-    char nome[50];
-    char cpf[12];
-    int poltrona = -1;
-
-    strcpy(cpf,"");
+void cadastrarCliente(Cliente *vetor){
+    FILE *escrever = fopen("clientes.bin", "ab");
 
     // continua solicitando o nome do cliente até ele ser preenchido
     do{
         printf("Digite o nome: ");
-        scanf(" %[^\n]", nome);
-        if(nome == NULL){
+        scanf(" %[^\n]", vetor->nome);
+        if(vetor->nome == NULL){
         printf("O campo 'nome' precisa ser preenchido!\n");
         }
-    }while (nome == NULL);
+    }while (vetor->nome == NULL);
 
     // continua solicitando o cpf do cliente até ele ser preenchido
     do{
         printf("Digite o CPF: ");
-        scanf("%s", cpf);
-        if(cpf == NULL){
+        scanf("%s", vetor->cpf);
+        if(vetor->cpf == NULL){
             printf("O campo 'CPF' precisa ser preenchido!\n");
         }
-    }while (cpf == NULL || verificarCPF(cpf) == 0);
+    }while (vetor->cpf == NULL || verificarCPF(vetor->cpf) == 0);
 
     //escrever no arquivo
-    fprintf(escrever, "%s\t%s\n", nome, cpf);
+    fwrite(&vetor, sizeof(Cliente), 1, escrever);
 
     //fechando o arquivo
     fclose(escrever);    
 };
 
-void reservarAcento(){
+void reservarAcento(Cliente *vetor){
     int cont = 0;
     char op;
     char nPoltrona[3], nCadastro[12], reservaAssento[3], reservaCPF[12];
@@ -104,10 +98,10 @@ void reservarAcento(){
         scanf(" %c",&op);
         if(toupper(op) == 'S'){
             //solicitar cadastro caso não esteja cadastrado
-            cadastrarCliente();
+            cadastrarCliente(vetor);
         }else{
             printf("\n\nReserva cancelada\n\n");
-            return;
+            
         }
     } 
     
@@ -206,7 +200,7 @@ int pesquisar(){
 }
 
 void imprimir(){
-    FILE *cliente = fopen("clientes.txt", "r");
+    FILE *cliente = fopen("clientes.bin", "rb");
     FILE *onibus = fopen("poltronas.txt", "r");
     int imprimirOq;
     char aux;

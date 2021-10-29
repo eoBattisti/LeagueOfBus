@@ -10,11 +10,11 @@ typedef struct{
     int status;
 }Poltronas;
 
-void opcaoSelect(int opcao,  Cliente vetor[]); //
+void opcaoSelect(int opcao,  Cliente *vetor); //
 
-void cadastrarCliente(); //
+void cadastrarCliente( Cliente *vetor); //
 
-void reservarAcento();
+void reservarAcento(Cliente *vetor);
 
 void venderAcento();
 
@@ -30,6 +30,6 @@ void criarOnibus(); //
 
 void excluirCadastro();
 
-void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam);
+void carregarArquivo(char *nomeArquivo, Cliente *vetor, int tam);
 
 int verificarCliente(char cpf[], char nome[]);
