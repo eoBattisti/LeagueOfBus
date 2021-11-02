@@ -1,18 +1,23 @@
+#define TAMC 100
+#define TAMP 40
+#define ARQC "clientes.bin" 
+#define ARQP "poltronas.bin"
+
 typedef struct {
     //Campos a ser preenchidos
     char nome[50];
-    int cpf;
+    char cpf[12];
     int poltrona;
 } Cliente;
 
 typedef struct{
-    int cpfCliente;
+    char cpfCliente[12];
     int status;
-}Poltronas;
+}Poltrona;
 
-void opcaoSelect(int opcao, char *nomeArquivoCliente, char *nomeArquivoOnibus, Cliente vetor[], int tam);
+void opcaoSelect(int opcao, Cliente vetorClientes[], Poltrona vetorPoltronas[]);
 
-void cadastrarCliente(char *nomeArquivoCliente, Cliente vetor[], int tam);
+void cadastrarCliente(Cliente vetor[]);
 
 void reservarAcento();
 
@@ -24,10 +29,10 @@ void retirarPoltronaDaReserva();
 
 void pesquisar();
 
-void imprimir(char *nomeArquivoCliente, Cliente vetor[], int tam);
+void imprimir(Cliente vetor[], Poltrona vetorP[]);
 
 void imprimirOnibus();
 
 void excluirCadastro();
 
-void carregarArquivo(char *nomeArquivo, Cliente vetor[], int tam);
+void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]);
