@@ -10,24 +10,25 @@ void opcaoSelect(int opcao, Cliente vetorClientes[], Poltrona vetorPoltronas[]){
     if (opcao == 1)
     {
         cadastrarCliente(vetorClientes);
+        salvarArquivo(vetorClientes,vetorPoltronas);
     } else if (opcao == 2)
     {
-        reservarAcento();
+        reservarAcento(vetorClientes,vetorPoltronas);
     } else if (opcao == 3)
     {
-        venderAcento();
+        venderAcento(vetorClientes, vetorPoltronas);
     } else if (opcao == 4)
     {
-        alterar();
+        alterar(vetorClientes, vetorPoltronas);
     } else if (opcao == 5)
     {
-        retirarPoltronaDaReserva();
+        retirarPoltronaDaReserva(vetorClientes, vetorPoltronas);
     } else if (opcao == 6)
     {
         pesquisar();
     } else if (opcao == 7)
     {
-        imprimir(vetorClientes,vetorPoltronas);
+        imprimir(vetorClientes,vetorPoltronas, 1);
     } else if (opcao == 8)
     {
         excluirCadastro();
@@ -54,14 +55,15 @@ void salvarArquivo(Cliente vetorC[], Poltrona vetorP[]){
     FILE *arquivoC = fopen(ARQC, "w+b");
     fwrite(vetorP, sizeof(Poltrona), TAMP, arquivoP);
     fwrite(vetorC, sizeof(Cliente), TAMC, arquivoC);
+    printf("\n\nSALVO COM SUCESSO\n");
     fclose(arquivoP);
     fclose(arquivoC);
 }
 
 //carrega um arquivo
 void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]){
-    FILE *arquivoP = fopen(ARQP, "w+b");
-    FILE *arquivoC = fopen(ARQC, "w+b");
+    FILE *arquivoP = fopen(ARQP, "rb");
+    FILE *arquivoC = fopen(ARQC, "rb");
     if(arquivoExiste(ARQC) && arquivoExiste(ARQP)){
         fread(vetorC, sizeof(Cliente), TAMC, arquivoC);
         fread(vetorP, sizeof(Poltrona), TAMP, arquivoP);
@@ -92,17 +94,13 @@ void cadastrarCliente(Cliente vetor[]){
         }
     }
 
-    printf("Digite o CPF: ");
-    scanf("%s", cpf);
-
-    // continua solicitando o cpf do cliente até ele ser preenchido
-    while (strcmp(cpf,"") == 0){
+    do{
         printf("\nDigite o CPF: ");
         scanf("%s", cpf);
         if(strcmp(cpf,"") == 0){
             printf("O campo CPF precisa ser preenchido!");
-        }  
-    }
+        }   
+    }while(strlen(cpf) != 11);
 
     //Laço de verificação para encontrar a posição no vetor onde o nome estiver NULL
     // logo todos os outros campos serão 0, 0 respectivamente
@@ -120,48 +118,94 @@ void cadastrarCliente(Cliente vetor[]){
    
 };
 
-void reservarAcento(){
+void reservarAcento( Cliente vetorC[], Poltrona vetorP[]){
+    int optCliente, optPoltrona, i , j;
+    imprimir(vetorC, vetorP, 1);    
+    printf("Digite o número do cliente");
+    scanf("%d", &optCliente);
+
+    imprimir(vetorC, vetorP, 2);
+    printf("Qual poltrona deseja reservar?");
+    scanf("%d", &optPoltrona);
+    vetorP[optPoltrona].status = 1;
+    strcpy(vetorP[optPoltrona].cpfCliente, vetorC[optCliente].cpf);
+    vetorC[optCliente].poltrona = optPoltrona;
+}
+void venderAcento( Cliente vetorC[], Poltrona vetorP[]){
+    int optCliente, optPoltrona, i , j;
+    imprimir(vetorC, vetorP, 1);    
+    printf("Digite o número do cliente");
+    scanf("%d", &optCliente);
+
+    imprimir(vetorC, vetorP, 2);
+    printf("Qual poltrona deseja reservar?");
+    scanf("%d", &optPoltrona);
+    vetorP[optPoltrona].status = 2;
+    strcpy(vetorP[optPoltrona].cpfCliente, vetorC[optCliente].cpf);
+    vetorC[optCliente].poltrona = optPoltrona; 
+}
+
+void alterar(Cliente vetorC[], Poltrona vetorP[]){
+    char cpf[12];
+    
+    printf("Digite o CPF do Cliente");
+    scanf("%s", cpf);
+
+    for(int i = 0; i < TAMC; i++){
+        if(strcmp(vetorC[i].cpf, cpf) == 0){
+            if(vetorC[i].poltrona >= 0){
+                if(vetorP[vetorC[i].poltrona].status == 1){
+                    printf("O cliente: %s | poltrona: %d - RESERVADA", vetorC[i].nome, vetorC[i].poltrona); 
+                    break;
+                } else if(vetorP[vetorC[i].poltrona].status == 2){
+                    printf("O cliente: %s | poltrona: %d - VENDIVA", vetorC[i].nome, vetorC[i].poltrona); 
+                    break;
+                }
+            } else{
+                printf("O cliente não possui nenhuma reserva");
+            }
+        }
+    }
 
 }
 
-void venderAcento(){
+void retirarPoltronaDaReserva(Cliente vetorC[], Poltrona vetorP[]){
+int optCliente, optPoltrona, i , j;
+    imprimir(vetorC, vetorP, 1);    
+    printf("Digite o número do cliente");
+    scanf("%d", &optCliente);
 
-}
-
-void alterar(){
-
-}
-
-void retirarPoltronaDaReserva(){
-
+    imprimir(vetorC, vetorP, 2);
+    printf("Qual poltrona deseja retirar da reservar?");
+    scanf("%d", &optPoltrona);
+    vetorP[optPoltrona].status = 0;
+    strcpy(vetorP[optPoltrona].cpfCliente, "");
+    vetorC[optCliente].poltrona = -1;
 }
 
 void pesquisar(){
 
 }
 
-void imprimir(Cliente vetor[], Poltrona vetorP[]){
-    int imprimirOq;
-    char aux;
+void imprimir(Cliente vetor[], Poltrona vetorP[], int opt){
 
-
-    printf("\nImprimir:\n1 - Cadastrados.\n2 - Onibus.\n");
-    scanf("%d", &imprimirOq);
-
-    if (imprimirOq == 1)
+    if (opt == 1)
     {
-        for(int i=0;i<TAMC;i++){
-            printf("\nCliente %d: %s %s", i, vetor[i].nome, vetor[i].cpf);
+        for(int i = 0; i < TAMC; i++){
+        if(strcmp(vetor[i].nome, "") != 0){
+            printf("%2d | %s\n", i + 1, vetor[i].nome);  
+            }
         }
+    }
         
-    }else if(imprimirOq == 2){
+    else if(opt == 2){
         for(int i=0;i<TAMP;i++){
             if(vetorP[i].status == 0){
-                printf("\n%2d-LIVRE",i);
+                printf("\n%2d",i);
             }else if(vetorP[i].status == 1){
-                printf("\n%2d-AR %s",i,vetorP[i].cpfCliente);
+                printf("\n%2d | AR | %s",i,vetorP[i].cpfCliente);
             }else if(vetorP[i].status == 2){
-                printf("\n%2d-AV %s",i,vetorP[i].cpfCliente);
+                printf("\n%2d | AV | %s",i,vetorP[i].cpfCliente);
             }
         }
     } else {
@@ -169,21 +213,18 @@ void imprimir(Cliente vetor[], Poltrona vetorP[]){
     }
 }
 
-void imprimirOnibus(Poltrona assentos[]){
-    for(int i=0;i<40;i++){
-        switch(assentos[i].status){
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
-    }
-}
-
 void excluirCadastro(){
 
+}
+
+void zerarVetores(Cliente Clientes[],Poltrona Poltronas[]){
+    for(int i=0;i<TAMC;i++){
+        strcpy(Clientes[i].nome,"");
+        strcpy(Clientes[i].cpf,"");
+        Clientes[i].poltrona=-1;
+    }
+    for(int i=0;i<TAMP-1;i++){
+        strcmp(Poltronas[i].cpfCliente,NULL);
+        Poltronas[i].status=0;
+    }
 }

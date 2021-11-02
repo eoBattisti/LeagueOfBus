@@ -17,22 +17,24 @@ typedef struct{
 
 void opcaoSelect(int opcao, Cliente vetorClientes[], Poltrona vetorPoltronas[]);
 
+void salvarArquivo(Cliente vetorC[], Poltrona vetorP[]);
+
+void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]);
+
 void cadastrarCliente(Cliente vetor[]);
 
-void reservarAcento();
+void reservarAcento(Cliente Clientes[],Poltrona Poltronas[]);
 
-void venderAcento();
+void venderAcento(Cliente vetorC[], Poltrona vetorP[]);
 
-void alterar();
+void alterar(Cliente vetorC[], Poltrona vetorP[]);
 
-void retirarPoltronaDaReserva();
+void retirarPoltronaDaReserva(Cliente vetorC[], Poltrona vetorP[]);
 
 void pesquisar();
 
-void imprimir(Cliente vetor[], Poltrona vetorP[]);
-
-void imprimirOnibus();
+void imprimir(Cliente vetor[], Poltrona vetorP[], int opt);
 
 void excluirCadastro();
 
-void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]);
+void zerarVetores(Cliente Clientes[],Poltrona Poltronas[]);

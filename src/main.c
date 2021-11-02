@@ -5,9 +5,23 @@
 
 
 int main(){
-    int opcaoSelecionada, sex;
+    int opcaoSelecionada;
+    char sex;
     Cliente Clientes[TAMC];
     Poltrona Poltronas[TAMP];
+    
+    // zerarVetores(Clientes,Poltronas);
+    // printf("\nClientes:\n");
+    // for(int i=0;i<TAMC;i++){
+    //     printf("%s\n", Clientes[i].nome);
+    // }
+
+    // printf("\nPoltronas:\n");
+    // for(int i=0;i<TAMP;i++){
+    //     printf("%d\n", Poltronas[i].status);
+    // }
+
+    carregarArquivo(Clientes,Poltronas);
 
     //Menu de opções
     do{
