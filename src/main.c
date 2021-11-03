@@ -6,11 +6,25 @@
 
 int main(){
     int opcaoSelecionada;
-    char sex;
+    int inicio;
+    char zerar[10];
     Cliente Clientes[TAMC];
     Poltrona Poltronas[TAMP];
     
-    // zerarVetores(Clientes,Poltronas);
+    printf("1 - Carregar arquivo\n0 - Zerar vetores\n\n");
+    scanf("%d",&inicio);
+
+    if(inicio==0){
+        printf("Tem certeza? Digite ZERAR\n\n");
+        scanf("%s",zerar);
+        if(strcmp(zerar,"ZERAR") == 0){
+            zerarVetores(Clientes,Poltronas);
+          salvarArquivo(Clientes,Poltronas);
+        }
+    }else{
+        carregarArquivo(Clientes,Poltronas);
+    }
+
     // printf("\nClientes:\n");
     // for(int i=0;i<TAMC;i++){
     //     printf("%s\n", Clientes[i].nome);
@@ -19,9 +33,7 @@ int main(){
     // printf("\nPoltronas:\n");
     // for(int i=0;i<TAMP;i++){
     //     printf("%d\n", Poltronas[i].status);
-    // }
-
-    carregarArquivo(Clientes,Poltronas);
+    // }    
 
     //Menu de opções
     do{
