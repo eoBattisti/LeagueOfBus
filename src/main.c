@@ -19,11 +19,12 @@ int main(){
         scanf("%s",zerar);
         if(strcmp(zerar,"ZERAR") == 0){
             zerarVetores(Clientes,Poltronas);
-          salvarArquivo(Clientes,Poltronas);
+            salvarArquivo(Clientes,Poltronas);
+            printf("\nZerado com sucesso");
         }
-    }else{
-        carregarArquivo(Clientes,Poltronas);
     }
+    carregarArquivo(Clientes,Poltronas);
+    printf("\nCarregado com sucesso\n\n");
 
     // printf("\nClientes:\n");
     // for(int i=0;i<TAMC;i++){
