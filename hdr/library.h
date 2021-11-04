@@ -31,10 +31,10 @@ void alterar(Cliente vetorC[], Poltrona vetorP[]);
 
 void retirarPoltronaDaReserva(Cliente vetorC[], Poltrona vetorP[]);
 
-void pesquisar();
+void pesquisar(Cliente vetorC[], Poltrona vetorP[]);
 
 void imprimir(Cliente vetor[], Poltrona vetorP[], int opt);
 
-void excluirCadastro();
+void excluirCadastro(Cliente vetorC[],Poltrona vetorP[]);
 
 void zerarVetores(Cliente Clientes[],Poltrona Poltronas[]);

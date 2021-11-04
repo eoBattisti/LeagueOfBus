@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "../hdr/library.h"
 
 
 int main(){
     int opcaoSelecionada;
-    int inicio;
-    char zerar[10];
+    char inicio, zerar[10];
     Cliente Clientes[TAMC];
     Poltrona Poltronas[TAMP];
     
-    printf("1 - Carregar arquivo\n0 - Zerar vetores\n\n");
-    scanf("%d",&inicio);
+    printf("Digite 0 para zerar vetores ou outra tecla para continuar...");
+    scanf("%c",&inicio);
+    
 
-    if(inicio==0){
+    if(inicio == '0'){
         printf("Tem certeza? Digite ZERAR\n\n");
         scanf("%s",zerar);
         if(strcmp(zerar,"ZERAR") == 0){
@@ -48,7 +49,7 @@ int main(){
         "7) Imprimir.\n"
         "8) Excluir cadastro.\n"
         "0) Sair.\n\n");
-        printf("Digite uma opcao:");
+        printf("Digite uma opcao: ");
         scanf("%d", &opcaoSelecionada);
         if(opcaoSelecionada >=0 || opcaoSelecionada<=9){
             opcaoSelect(opcaoSelecionada, Clientes, Poltronas);
