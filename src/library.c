@@ -60,6 +60,7 @@ void salvarArquivo(Cliente vetorC[], Poltrona vetorP[]){
     FILE *arquivoC = fopen(ARQC, "w+b");
     fwrite(vetorP, sizeof(Poltrona), TAMP, arquivoP);
     fwrite(vetorC, sizeof(Cliente), TAMC, arquivoC);
+    printf("\n\nArquivo salvo com sucesso\n");
     fclose(arquivoP);
     fclose(arquivoC);
 }
@@ -68,13 +69,14 @@ void salvarArquivo(Cliente vetorC[], Poltrona vetorP[]){
 void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]){
     FILE *arquivoP = fopen(ARQP, "rb");
     FILE *arquivoC = fopen(ARQC, "rb");
+    //verifica se os arquivos existem
     if(arquivoExiste(ARQC) && arquivoExiste(ARQP)){
         fread(vetorC, sizeof(Cliente), TAMC, arquivoC);
         fread(vetorP, sizeof(Poltrona), TAMP, arquivoP);
         fclose(arquivoC);
         fclose(arquivoP);
     }else{
-        printf("\n\nERRO AO CARREGAR ARQUIVOS");
+        printf("\n\nErro ao carregar os arquivos");
         exit(1);
     }
 }
@@ -109,10 +111,11 @@ void cadastrarCliente(Cliente vetor[]){
     //Laço de verificação para encontrar a posição no vetor onde o nome estiver NULL
     // logo todos os outros campos serão 0, 0 respectivamente
     for(int i = 0; i < TAMC; i++){
+        
         if(strcmp(vetor[i].nome, "") == 0) 
         {   
             //quando encontra a posição no vetor em branco adicona o cliente na posição
-            strcpy(vetor[i].cpf,cpf);
+            strcpy(vetor[i].cpf, cpf);
             strcpy(vetor[i].nome, nome);
             vetor[i].poltrona = poltrona;
             printf("Cliente cadastrado com sucesso");
@@ -122,87 +125,174 @@ void cadastrarCliente(Cliente vetor[]){
    
 };
 
+// Reserva o Assento
 void reservarAcento( Cliente vetorC[], Poltrona vetorP[]){
     int optCliente, optPoltrona, i , j;
+    
+    //imprime o vetor de clientes para que o usuário selecione o cliente
     imprimir(vetorC, vetorP, 1);    
     printf("Digite o número do cliente");
     scanf("%d", &optCliente);
     optCliente--;
 
+    //Impime o vetor das poltranas para que o usuário selecione a poltrona
     imprimir(vetorC, vetorP, 2);
     printf("Qual poltrona deseja reservar?");
     scanf("%d", &optPoltrona);
     optPoltrona--;
 
+    //Muda o status da poltrona para reservarda
     vetorP[optPoltrona].status = 1;
+    
+    //Copia o cpf do cliente para a poltona selecionada
     strcpy(vetorP[optPoltrona].cpfCliente, vetorC[optCliente].cpf);
+    
+    //O cliente na atributo poltrona recebe o número da poltrona selecionada
     vetorC[optCliente].poltrona = optPoltrona;
+
+    printf("\nReserva realizada com sucesso!\n");
 }
 
+// Realiza a venda dos assentos
 void venderAcento( Cliente vetorC[], Poltrona vetorP[]){
     int optCliente, optPoltrona, i , j;
+    //imprime o vetor de clientes para que o usuário selecione o cliente
     imprimir(vetorC, vetorP, 1);    
     printf("Digite o número do cliente");
     scanf("%d", &optCliente);
     optCliente--;
 
+    //Impime o vetor das poltranas para que o usuário selecione a poltrona
     imprimir(vetorC, vetorP, 2);
     printf("Qual poltrona deseja reservar?");
     scanf("%d", &optPoltrona);
     optPoltrona--;
 
+    //Muda o status da poltrona para Vendida 
     vetorP[optPoltrona].status = 2;
+
+    //Copia o cpf do cliente para a poltona selecionada
     strcpy(vetorP[optPoltrona].cpfCliente, vetorC[optCliente].cpf);
+
+    //O cliente na atributo poltrona recebe o número da poltrona selecionada
     vetorC[optCliente].poltrona = optPoltrona; 
+
+    printf("\nVenda realizada com sucesso!\n");
 }
 
+// Altera o status de uma poltrona para outra
 void alterar(Cliente vetorC[], Poltrona vetorP[]){
     char cpf[12];
     int optPoltrona;
     
+    // solicita o CPF do cliente 
     imprimir(vetorC,vetorP,1);
     printf("Digite o CPF do Cliente\n");
     scanf("%s", cpf);
 
+    // Laço de repetição procurando o CPF do cliente no vetor
     for(int i = 0; i < TAMC; i++){
         if(strcmp(vetorC[i].cpf, cpf) == 0){
-            if(vetorC[i].poltrona >= 0){
-                imprimir(vetorC,vetorP,2);
+            if(vetorC[i].poltrona > 0){
+                //verifica o status da poltrona
                 if(vetorP[vetorC[i].poltrona].status == 1){
-                    printf("\nO cliente: %s | poltrona: %d - RESERVADA", vetorC[i].nome, vetorC[i].poltrona); 
+                    //informa o qual poltrona o cliente já possui
+                    printf("O cliente: %s | poltrona: %d - RESERVADA", vetorC[i].nome, vetorC[i].poltrona); 
+                    imprimir(vetorC, vetorP, 2);
+                    printf("Digite o numero da poltrona que deseja alterar ou 0 para Cancelar: ");
+                    scanf("%d", &optPoltrona);
+                    optPoltrona--;
+
+                    // se o usuário digitar o número de uma poltrona já ocupada não permite que 
+                    // a reserva seja efetuada
+                    if(vetorP[optPoltrona].status != 0){
+                        printf("A poltrona %d não pode ser reservada", optPoltrona + 1);
+                        return;
+                    }
                     
+                    // zera o status da poltrona anterior
+                    vetorP[vetorC[i].poltrona].status = 0;
+
+                    // altera o status para reservada na poltrona selecionada
+                    vetorP[optPoltrona].status = 1;
+
+                    // copia o cpf do cliente para nova poltrona
+                    strcpy(vetorP[optPoltrona].cpfCliente, vetorC[i].cpf);
+                    
+                    // zera o cpf do cliente na poltrona anterior
+                    strcpy(vetorP[vetorC[i].poltrona].cpfCliente, "");
+                    
+                    // Coloca o número da nova no atributo poltrona do cliente
+                    vetorC[i].poltrona = optPoltrona;
+
+                    printf("Alteração feita com sucesso");
+
                 } else if(vetorP[vetorC[i].poltrona].status == 2){
-                    printf("\nO cliente: %s | poltrona: %d - VENDIVA", vetorC[i].nome, vetorC[i].poltrona); 
+                    printf("O cliente: %s | poltrona: %d - VENDIVA", vetorC[i].nome, vetorC[i].poltrona);
+                    imprimir(vetorC, vetorP, 2);
+                    printf("Digite o numero da poltrona que deseja alterar ou 0 para Cancelar: ");
+                    scanf("%d", &optPoltrona);
+                    optPoltrona--;
+
+                    // se o usuário digitar o número de uma poltrona já ocupada não permite que 
+                    // a reserva seja efetuada
+                    if(vetorP[optPoltrona].status != 0){
+                        printf("A poltrona %d não pode ser ", optPoltrona + 1);
+                        return;
+                    }
+
+                    // zera o status da poltrona anterior
+                    vetorP[vetorC[i].poltrona].status = 0;
+
+                    // altera o status para reservada na poltrona selecionada
+                    vetorP[optPoltrona].status = 2;
+
+                    // copia o cpf do cliente para nova poltrona
+                    strcpy(vetorP[optPoltrona].cpfCliente, vetorC[i].cpf);
+
+
+                    // zera o cpf do cliente na poltrona anterior
+                    strcpy(vetorP[vetorC[i].poltrona].cpfCliente, "");
+
+                    // Coloca o número da nova no atributo poltrona do cliente
+                    vetorC[i].poltrona = optPoltrona; 
+
+                    printf("Alteração feita com sucesso");
                 }
-                printf("Digite o numero da poltrona que deseja alterar ou 0 para Cancelar: ");
-                scanf("%d", &optPoltrona);
-                optPoltrona--;
-                vetorP[vetorC[i].poltrona].status = 0;
-                vetorP[optPoltrona].status = 1;
-                strcpy(vetorP[optPoltrona].cpfCliente, vetorC[i].cpf);
-                strcpy(vetorP[vetorC[i].poltrona].cpfCliente, "");
-                vetorC[i].poltrona = optPoltrona;
-                printf("Poltrona alterada com sucesso!\n\n");
-                return;
             }
-            
         }
     }
     printf("O cliente não possui nenhuma reserva");
 }
 
+// Retira a poltrona da resava cancelando a reserva
 void retirarPoltronaDaReserva(Cliente vetorC[], Poltrona vetorP[]){
-int optCliente, optPoltrona, i , j;
+    int optCliente, optPoltrona, i , j;
+
+    // imprime o vetor de clientes
     imprimir(vetorC, vetorP, 1);    
     printf("Digite o número do cliente");
     scanf("%d", &optCliente);
+    optCliente--;
 
+    // Imprime o vetor de onibus
     imprimir(vetorC, vetorP, 2);
     printf("Qual poltrona deseja retirar da reservar?");
     scanf("%d", &optPoltrona);
+    optPoltrona--;
+
+    // Se o cpf do cliente não for o mesmo da poltrona não permite retirar a reserva da poltrona
+    if(strcmp(vetorP[optPoltrona].cpfCliente, vetorC[optCliente].cpf) != 0){
+        printf("O cliente não possui a reserva desta poltrona!");
+        return;
+    }
+
+    // retira a poltrona da reserva
     vetorP[optPoltrona].status = 0;
     strcpy(vetorP[optPoltrona].cpfCliente, "");
     vetorC[optCliente].poltrona = -1;
+    
+    printf("Reserva retirada com sucesso!");
 }
 
 void pesquisar(Cliente vetorC[], Poltrona vetorP[]){
@@ -263,6 +353,7 @@ void imprimir(Cliente vetor[], Poltrona vetorP[], int opt){
         scanf("%d",&opt);
     }
 
+    // Se a opção número 1 - impre a lista de clientes
     if (opt == 1)
     {
         for(int i = 0; i < TAMC; i++){
@@ -272,7 +363,8 @@ void imprimir(Cliente vetor[], Poltrona vetorP[], int opt){
         }
         printf("\n\n");
     }
-        
+    
+    // Se opção número 2 - Imprime a lista de poltronas
     else if(opt == 2){
         for(int i=0;i<TAMP;i++){
             if(vetorP[i].status == 0){

@@ -11,9 +11,8 @@ int main(){
     Cliente Clientes[TAMC];
     Poltrona Poltronas[TAMP];
     
-    printf("Digite 0 para zerar vetores ou outra tecla para continuar...");
-    scanf("%c",&inicio);
-    
+    printf(" Deseja zerar os arquivos ? \n Digite 0 se SIM ou qualquer outra tecla para NAO.\n\n");
+    scanf("%d",&inicio);
 
     if(inicio == '0'){
         printf("Tem certeza? Digite ZERAR\n\n");
@@ -21,11 +20,11 @@ int main(){
         if(strcmp(zerar,"ZERAR") == 0){
             zerarVetores(Clientes,Poltronas);
             salvarArquivo(Clientes,Poltronas);
-            printf("\nZerado com sucesso");
+            printf("\nArquivo zerado com sucesso");
         }
     }
     carregarArquivo(Clientes,Poltronas);
-    printf("\nCarregado com sucesso\n\n");
+    printf("\nArquivo carregado com sucesso\n\n");
 
     // printf("\nClientes:\n");
     // for(int i=0;i<TAMC;i++){
@@ -39,17 +38,18 @@ int main(){
 
     //Menu de opções
     do{
-        printf("\n\n\nMenu:\n"
-        "1) Cadastrar Cliente.\n"
-        "2) Reservar assento.\n"
-        "3) Vender assento.\n"
-        "4) Alterar assento.\n"
-        "5) Retirar poltrona da reserva.\n"
-        "6) Pesquisar cliente.\n"
-        "7) Imprimir.\n"
-        "8) Excluir cadastro.\n"
-        "0) Sair.\n\n");
-        printf("Digite uma opcao: ");
+        printf("\t\tMenu:\n"
+        "---------------------------------\n"
+        "[1] Cadastrar Cliente.\n"
+        "[2] Reservar assento.\n"
+        "[3] Vender assento.\n"
+        "[4] Alterar assento.\n"
+        "[5] Retirar poltrona da reserva.\n"
+        "[6] Pesquisar cliente.\n"
+        "[7] Imprimir.\n"
+        "[8] Excluir cadastro.\n"
+        "[0] Sair.\n\n");
+        printf("Digite uma opcao:");
         scanf("%d", &opcaoSelecionada);
         if(opcaoSelecionada >=0 || opcaoSelecionada<=9){
             opcaoSelect(opcaoSelecionada, Clientes, Poltronas);
