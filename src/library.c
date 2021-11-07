@@ -15,11 +15,11 @@ void opcaoSelect(int opcao, Cliente vetorClientes[], Poltrona vetorPoltronas[]){
         salvarArquivo(vetorClientes,vetorPoltronas);
     } else if (opcao == 2) // Reservar assento
     {
-        reservarAcento(vetorClientes,vetorPoltronas);
+        reservarAssento(vetorClientes,vetorPoltronas);
         salvarArquivo(vetorClientes,vetorPoltronas);
     } else if (opcao == 3) // Vender assento
     {
-        venderAcento(vetorClientes, vetorPoltronas);
+        venderAssento(vetorClientes, vetorPoltronas);
         salvarArquivo(vetorClientes,vetorPoltronas);
     } else if (opcao == 4) // Alterar assento
     {
@@ -136,7 +136,7 @@ void cadastrarCliente(Cliente vetor[]){
 };
 
 // Reserva o Assento
-void reservarAcento( Cliente vetorC[], Poltrona vetorP[]){
+void reservarAssento( Cliente vetorC[], Poltrona vetorP[]){
     int optCliente, optPoltrona, i , j, cont;
 
     // Verifica se há assentos disponíveis
@@ -181,7 +181,7 @@ void reservarAcento( Cliente vetorC[], Poltrona vetorP[]){
 }
 
 // Realiza a venda dos assentos
-void venderAcento( Cliente vetorC[], Poltrona vetorP[]){
+void venderAssento( Cliente vetorC[], Poltrona vetorP[]){
     int optCliente, optPoltrona, i , j, cont;
 
      // Verifica se há assentos disponíveis

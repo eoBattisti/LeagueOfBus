@@ -23,9 +23,9 @@ void carregarArquivo(Cliente vetorC[], Poltrona vetorP[]);
 
 void cadastrarCliente(Cliente vetor[]);
 
-void reservarAcento(Cliente Clientes[],Poltrona Poltronas[]);
+void reservarAssento(Cliente Clientes[],Poltrona Poltronas[]);
 
-void venderAcento(Cliente vetorC[], Poltrona vetorP[]);
+void venderAssento(Cliente vetorC[], Poltrona vetorP[]);
 
 void alterar(Cliente vetorC[], Poltrona vetorP[]);
 
