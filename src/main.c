@@ -1,3 +1,15 @@
+/*                                                                  *
+ *                                                                  *
+ *          League of Bus - Sistema de gerenciamento de ônibus      *
+ *                                                                  *
+ *          Integrantes:                                            *
+ *          - João Pedro Gaffuri                                    *
+ *          - Nicolas Battisti                                      *
+ *          - Lucas Vilain Matras                                   *
+ *                                                                  *
+ *                                                                  */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,18 +23,20 @@ int main(){
     Cliente Clientes[TAMC];
     Poltrona Poltronas[TAMP];
     
-    printf(" Deseja zerar os arquivos ? \n Digite 0 se SIM ou qualquer outra tecla para NAO.\n\n");
-    scanf("%d",&inicio);
-
+    // Caso deseja resetar o sistema, o usuário deve digitar 0 e confirmar a ação
+    warningMessage("Digite 0 para zerar vetores ou outra tecla para continuar... ");
+    scanf("%c",&inicio);
+    
     if(inicio == '0'){
         printf("Tem certeza? Digite ZERAR\n\n");
         scanf("%s",zerar);
         if(strcmp(zerar,"ZERAR") == 0){
             zerarVetores(Clientes,Poltronas);
             salvarArquivo(Clientes,Poltronas);
-            printf("\nArquivo zerado com sucesso");
+            printf("\nZerado com sucesso");
         }
     }
+
     carregarArquivo(Clientes,Poltronas);
     printf("\nArquivo carregado com sucesso\n\n");
 
@@ -38,7 +52,7 @@ int main(){
 
     //Menu de opções
     do{
-        printf("\t\tMenu:\n"
+        printf("\n\n\t\tMenu:\n"
         "---------------------------------\n"
         "[1] Cadastrar Cliente.\n"
         "[2] Reservar assento.\n"
@@ -49,7 +63,7 @@ int main(){
         "[7] Imprimir.\n"
         "[8] Excluir cadastro.\n"
         "[0] Sair.\n\n");
-        printf("Digite uma opcao:");
+        printf("Digite uma opcao: ");
         scanf("%d", &opcaoSelecionada);
         if(opcaoSelecionada >=0 || opcaoSelecionada<=9){
             opcaoSelect(opcaoSelecionada, Clientes, Poltronas);

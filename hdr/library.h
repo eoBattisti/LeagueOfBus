@@ -38,3 +38,11 @@ void imprimir(Cliente vetor[], Poltrona vetorP[], int opt);
 void excluirCadastro(Cliente vetorC[],Poltrona vetorP[]);
 
 void zerarVetores(Cliente Clientes[],Poltrona Poltronas[]);
+
+void wait();
+
+void successMessage(char message[]);
+
+void errorMessage(char message[]);
+
+void warningMessage(char message[]);
